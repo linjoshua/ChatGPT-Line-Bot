@@ -14,6 +14,22 @@ from src.service.youtube import Youtube, YoutubeTranscriptReader
 from src.service.website import Website, WebsiteReader
 from src.mongodb import mongodb
 
+from transformers import pipeline
+import os
+
+# 初始化 Hugging Face 的聊天模型
+HF_TOKEN = os.getenv("HUGGINGFACE_API_KEY", "")
+chat_model = pipeline(
+    "text-generation",
+    model="mistralai/Mistral-7B-Instruct",
+    tokenizer="mistralai/Mistral-7B-Instruct",
+    use_auth_token=HF_TOKEN,
+    max_length=512,
+    temperature=0.7,
+    do_sample=True
+)
+
+
 # 載入 .env 設定
 load_dotenv('.env')
 
